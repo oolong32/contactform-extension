@@ -1,0 +1,33 @@
+{
+  "name": "stillhartkonzept/contactform-extension",
+  "description": "An extension to the contact-form plugin. It should mail a success message to the sender and alter the original plugin’s template.",
+  "version": "1.0.0",
+  "type": "craft-plugin",
+  "keywords": ["contact form template", "mail messaging"],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Josef Renner",
+      "homepage": "https://stillhartkonzept.ch"
+    }
+  ],
+  "support": {
+    "email": "info@stillhartkonzept.ch",
+    "issues": "https://github.com/developer/repo/issues?state=open",
+    "source": "https://github.com/developer/repo",
+    "docs": "https://github.com/developer/repo/blob/master/README.md"
+  },
+  "require": {
+    "craftcms/cms": "^3.1.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "stillhart\\": "src/"
+    }
+  },
+  "extra": {
+    "name": "Contactform Extension",
+    "handle": "stillhart-contactform-extension"
+  }
+}
+
