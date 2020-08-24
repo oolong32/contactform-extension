@@ -13,9 +13,9 @@
   ],
   "support": {
     "email": "info@stillhartkonzept.ch",
-    "issues": "https://github.com/developer/repo/issues?state=open",
-    "source": "https://github.com/developer/repo",
-    "docs": "https://github.com/developer/repo/blob/master/README.md"
+    "issues": "https://gitlab.com/oolong32/contactform-extension/-/issues",
+    "source": "https://gitlab.com/oolong32/contactform-extension",
+    "docs": "https://gitlab.com/oolong32/contactform-extension/-/blob/master/README.md"
   },
   "require": {
     "craftcms/cms": "^3.1.0"
