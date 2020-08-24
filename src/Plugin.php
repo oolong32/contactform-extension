@@ -11,10 +11,8 @@ class Plugin extends \craft\base\Plugin
   {
     parent::init();
 
-    // Custom initialization code goes here...
+    // Listen for Submissions to/by Contact-Form Plugin
     Event::on(Submission::class, Submission::EVENT_AFTER_VALIDATE, function(Event $e) {
-      /** @var Submission $submission */
-
       $submission = $e->sender;
 
       $fromEmail = $submission->fromEmail;
@@ -33,9 +31,9 @@ class Plugin extends \craft\base\Plugin
 
       // Log to storage/logs/contactform-extension.log
       // see Ben Croker’s answer – https://craftcms.stackexchange.com/questions/25427/craft-3-plugins-logging-in-a-separate-log-file
-      $file = Craft::getAlias('@storage/logs/contactform-extension.log');
-      $log = date('Y-m-d H:i:s').' '.json_encode($submission)."\n";
-      \craft\helpers\FileHelper::writeToFile($file, $log, ['append' => true]);
+      // $file = Craft::getAlias('@storage/logs/contactform-extension.log');
+      // $log = date('Y-m-d H:i:s').' '.json_encode($submission)."\n";
+      // \craft\helpers\FileHelper::writeToFile($file, $log, ['append' => true]);
 
       // Send email to contact form sender
       Craft::$app->getMailer()->compose()
