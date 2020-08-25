@@ -1,9 +1,15 @@
 <?php
 namespace stillhart;
 
+// for contact form
 use Craft;
 use craft\contactform\models\Submission;
 use yii\base\Event;
+
+// for guest entries
+use craft\guestentries\controllers\SaveController;
+use craft\guestentries\events\SaveEvent;
+
 
 class Plugin extends \craft\base\Plugin
 {
@@ -43,5 +49,59 @@ class Plugin extends \craft\base\Plugin
       ->send();
 
     });
+
+
+    Event::on(SaveController::class, SaveController::EVENT_AFTER_ERROR, function(SaveEvent $e) {
+      // Grab the entry
+      $entry = $e->entry;
+
+      // Get any validation errors
+      $errors = $entry->getErrors();
+      
+      $file = Craft::getAlias('@storage/logs/bloody-estate-form.log');
+      $log = date('Y-m-d H:i:s').' '.json_encode($errors)."\n";
+      \craft\helpers\FileHelper::writeToFile($file, $log, ['append' => true]);
+    });
+
+
+    Event::on(SaveController::class, SaveController::EVENT_BEFORE_SAVE_ENTRY, function(SaveEvent $e) {
+      // Grab the entry
+      $entry = $e->entry;
+
+      // fix that awful form nonsense
+      // because javascript really tries to set values which are then mishandled by WHAT?
+
+      $sellerName = $entry->sellerName;
+      $ownerName = $entry->ownerName;
+
+      $sellerFirstname = $entry->sellerFirstname;
+      $ownerFirstname = $entry->ownerFirstname;
+
+      $sellerFirma = $entry->sellerFirma;
+      $ownerFirma = $entry->ownerFirma;
+
+      $sellerTel = $entry->sellerTel;
+      $ownerTel = $entry->ownerTel;
+
+      $sellerMail = $entry->sellerMail;
+      $ownerMail = $entry->ownerMail;
+
+      if (!$sellerName) {
+        $entry->sellerName = $ownerName;
+      }
+      if (!$sellerFirstname) {
+        $entry->sellerFirstname = $ownerFirstname;
+      }
+      if (!$sellerFirma) {
+        $entry->sellerFirma = $ownerFirma;
+      }
+      if (!$sellerTel) {
+        $entry->sellerTel = $ownerTel;
+      }
+      if (!$sellerMail) {
+        $entry->sellerMail = $ownerMail;
+      }
+    });
+
   }
 }
