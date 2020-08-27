@@ -24,9 +24,9 @@ class Plugin extends \craft\base\Plugin
 
       $submission = $e->sender; // what contactForm.vue submits
       $fromEmail = $submission->fromEmail; // sender/seller
-      $recipientEmail = $submission->recipientEmail; // recipient/buyer
+      $recipientEmail = $submission->message->recipientEmail; // recipient/buyer
       $subject = $submission->subject; // message subject
-      $body = $submission->message;// message
+      $body = $submission->message->body;// message
       $success_subject = null; // success message to sender/seller
       $success_body = null;// success message to sender/seller
 
