@@ -23,23 +23,27 @@ class Plugin extends \craft\base\Plugin
 
       $fromEmail = $submission->fromEmail;
       $originalSubject = $submission->subject;
-      $subject = 'Nachricht erfolgreich übermittelt';
+      $subject = null;
       $body = $submission->message;
 
       $locale = Craft::$app->getSites()->getCurrentSite()->language;
 
       if ($locale == 'de') {
+        $subject = 'Nachricht erfolgreich übermittelt';
         $body = "Ihre Nachricht mit dem Betreff: «".$originalSubject."» wurde erfolgreich übermittelt.\n\nFreundliche Grüsse,\nMarché Patrimoine";
       } else {
         $subject = 'Message transmis.';
         $body = "Votre Message au sujet de : « ".$originalSubject." » a bien été transmis.\n\nCordialement,\nMarché Patrimoine";
       }
+      
+      // Was hier noch fehlt, du Hirnipicker, ist das Mail an den lieben Empfänger, duh!
+      // dazu muss natürlich die Adresse des lieben Empfängers übermittelt werden oder.
 
       // Log to storage/logs/contactform-extension.log
       // see Ben Croker’s answer – https://craftcms.stackexchange.com/questions/25427/craft-3-plugins-logging-in-a-separate-log-file
-      // $file = Craft::getAlias('@storage/logs/contactform-extension.log');
-      // $log = date('Y-m-d H:i:s').' '.json_encode($submission)."\n";
-      // \craft\helpers\FileHelper::writeToFile($file, $log, ['append' => true]);
+      $file = Craft::getAlias('@storage/logs/contactform-extension.log');
+      $log = date('Y-m-d H:i:s').' '.json_encode($submission)."\n";
+      \craft\helpers\FileHelper::writeToFile($file, $log, ['append' => true]);
 
       // Send email to contact form sender
       Craft::$app->getMailer()->compose()
