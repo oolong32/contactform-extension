@@ -24,11 +24,11 @@ class Plugin extends \craft\base\Plugin
 
       $submission = $e->sender; // what contactForm.vue submits
       $fromEmail = $submission->fromEmail; // sender/seller
-      $toEmail = $submission->toEmail;     // recipient/buyer
-      $subject = $submission->subject;     // message subject
-      $body = $submission->message;        // message
+      $recipientEmail = $submission->recipientEmail; // recipient/buyer
+      $subject = $submission->subject; // message subject
+      $body = $submission->message;// message
       $success_subject = null; // success message to sender/seller
-      $success_body = null;    // success message to sender/seller
+      $success_body = null;// success message to sender/seller
 
       // set up message text for success message to sender (buyer)
       if ($locale == 'de') {
@@ -63,7 +63,7 @@ class Plugin extends \craft\base\Plugin
 
       // Send email to recipient/seller
       Craft::$app->getMailer()->compose()
-      ->setTo($toEmail)
+      ->setTo($recipientEmail)
       ->setSubject($subject)
       ->setTextBody($body)
       ->send();
