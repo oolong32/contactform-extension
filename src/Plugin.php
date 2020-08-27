@@ -19,39 +19,54 @@ class Plugin extends \craft\base\Plugin
 
     // Listen for Submissions to/by Contact-Form Plugin
     Event::on(Submission::class, Submission::EVENT_AFTER_VALIDATE, function(Event $e) {
-      $submission = $e->sender;
 
-      $fromEmail = $submission->fromEmail;
-      $originalSubject = $submission->subject;
-      $subject = null;
-      $body = $submission->message;
+      $locale = Craft::$app->getSites()->getCurrentSite()->language; // needed to decide what language the sender reads
 
-      $locale = Craft::$app->getSites()->getCurrentSite()->language;
+      $submission = $e->sender; // what contactForm.vue submits
+      $fromEmail = $submission->fromEmail; // sender/seller
+      $toEmail = $submission->toEmail;     // recipient/buyer
+      $subject = $submission->subject;     // message subject
+      $body = $submission->message;        // message
+      $success_subject = null; // success message to sender/seller
+      $success_body = null;    // success message to sender/seller
 
+      // set up message text for success message to sender (buyer)
       if ($locale == 'de') {
-        $subject = 'Nachricht erfolgreich übermittelt';
-        $body = "Ihre Nachricht mit dem Betreff: «".$originalSubject."» wurde erfolgreich übermittelt.\n\nFreundliche Grüsse,\nMarché Patrimoine";
+        $success_subject = 'Nachricht erfolgreich übermittelt';
+        $success_body = "Ihre Nachricht mit dem Betreff: «".$originalSubject."» wurde erfolgreich übermittelt.\n\nFreundliche Grüsse,\nMarché Patrimoine";
       } else {
-        $subject = 'Message transmis.';
-        $body = "Votre Message au sujet de : « ".$originalSubject." » a bien été transmis.\n\nCordialement,\nMarché Patrimoine";
+        $success_subject = 'Message transmis.';
+        $success_body = "Votre Message au sujet de : « ".$originalSubject." » a bien été transmis.\n\nCordialement,\nMarché Patrimoine";
       }
       
-      // Was hier noch fehlt, du Hirnipicker, ist das Mail an den lieben Empfänger, duh!
-      // dazu muss natürlich die Adresse des lieben Empfängers übermittelt werden oder.
-
+      // set up message text for recipient
+      // not neccessary?
+      if ($locale == "de") {
+        //$recipient_subject = "Nachricht von Marché Patrimoine";
+      } else {
+        //$recipient_subject = "Message de Marché Patrimoine";
+      }
+      
       // Log to storage/logs/contactform-extension.log
       // see Ben Croker’s answer – https://craftcms.stackexchange.com/questions/25427/craft-3-plugins-logging-in-a-separate-log-file
-      $file = Craft::getAlias('@storage/logs/contactform-extension.log');
-      $log = date('Y-m-d H:i:s').' '.json_encode($submission)."\n";
-      \craft\helpers\FileHelper::writeToFile($file, $log, ['append' => true]);
+      // $file = Craft::getAlias('@storage/logs/contactform-extension.log');
+      // $log = date('Y-m-d H:i:s').' '.json_encode($submission)."\n";
+      // \craft\helpers\FileHelper::writeToFile($file, $log, ['append' => true]);
 
-      // Send email to contact form sender
+      // Send email to sender/buyer
+      // this has been tested locally and it worked
       Craft::$app->getMailer()->compose()
       ->setTo($fromEmail)
+      ->setSubject($success_subject)
+      ->setTextBody($success_body)
+      ->send();
+
+      // Send email to recipient/seller
+      Craft::$app->getMailer()->compose()
+      ->setTo($toEmail)
       ->setSubject($subject)
       ->setTextBody($body)
       ->send();
-
     });
 
 
