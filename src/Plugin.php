@@ -33,25 +33,17 @@ class Plugin extends \craft\base\Plugin
       // set up message text for success message to sender (buyer)
       if ($locale == 'de') {
         $success_subject = 'Nachricht erfolgreich übermittelt';
-        $success_body = "Ihre Nachricht mit dem Betreff: «".$originalSubject."» wurde erfolgreich übermittelt.\n\nFreundliche Grüsse,\nMarché Patrimoine";
+        $success_body = "Ihre Nachricht mit dem Betreff: «".$subject."» wurde erfolgreich übermittelt.\n\nFreundliche Grüsse,\nMarché Patrimoine";
       } else {
         $success_subject = 'Message transmis.';
-        $success_body = "Votre Message au sujet de : « ".$originalSubject." » a bien été transmis.\n\nCordialement,\nMarché Patrimoine";
-      }
-      
-      // set up message text for recipient
-      // not neccessary?
-      if ($locale == "de") {
-        //$recipient_subject = "Nachricht von Marché Patrimoine";
-      } else {
-        //$recipient_subject = "Message de Marché Patrimoine";
+        $success_body = "Votre Message au sujet de : « ".$subject." » a bien été transmis.\n\nCordialement,\nMarché Patrimoine";
       }
       
       // Log to storage/logs/contactform-extension.log
       // see Ben Croker’s answer – https://craftcms.stackexchange.com/questions/25427/craft-3-plugins-logging-in-a-separate-log-file
-      // $file = Craft::getAlias('@storage/logs/contactform-extension.log');
-      // $log = date('Y-m-d H:i:s').' '.json_encode($submission)."\n";
-      // \craft\helpers\FileHelper::writeToFile($file, $log, ['append' => true]);
+      $file = Craft::getAlias('@storage/logs/contactform-extension.log');
+      $log = date('Y-m-d H:i:s').' '.json_encode($submission)."\n";
+      \craft\helpers\FileHelper::writeToFile($file, $log, ['append' => true]);
 
       // Send email to sender/buyer
       // this has been tested locally and it worked
