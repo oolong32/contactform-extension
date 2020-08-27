@@ -23,10 +23,10 @@ class Plugin extends \craft\base\Plugin
       $locale = Craft::$app->getSites()->getCurrentSite()->language; // needed to decide what language the sender reads
 
       $submission = $e->sender; // what contactForm.vue submits
-      $fromEmail = $submission->fromEmail; // sender/seller
-      $recipientEmail = $submission->message->recipientEmail; // recipient/buyer
+      $fromEmail = $submission.fromEmail; // sender/seller
+      $recipientEmail = $submission->message["recipientEmail"]; // recipient/buyer
       $subject = $submission->subject; // message subject
-      $body = $submission->message->body;// message
+      $body = $submission->message["body"];// message
       $success_subject = null; // success message to sender/seller
       $success_body = null;// success message to sender/seller
 
