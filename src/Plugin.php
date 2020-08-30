@@ -54,6 +54,7 @@ class Plugin extends \craft\base\Plugin
       ->send();
 
       // Send email to recipient/seller
+      // it seems to work as well, but spam is a problem
       Craft::$app->getMailer()->compose()
       ->setTo($recipientEmail)
       ->setSubject($subject)
@@ -112,6 +113,27 @@ class Plugin extends \craft\base\Plugin
       if (!$sellerMail) {
         $entry->sellerMail = $ownerMail;
       }
+
+      // set up message text for success message to sender (buyer)
+      if ($locale == 'de') {
+        $success_subject = 'Objekt erfolgreich erfasst';
+        $success_body = "Das Objekt «".$entry->title."» wurde erfolgreich erfasst.\n\nEs wird nach redaktioneller Prüfung live geschaltet.\n\nFreundliche Grüsse,\nMarché Patrimoine";
+      } else {
+        $success_subject = '…';
+        $success_body = "Votre … « ".$entry->title." » a bien été transmis.\n\n…\n\nCordialement,\nMarché Patrimoine";
+      }
+
+      // Log to storage/logs/contactform-extension.log
+      // see Ben Croker’s answer – https://craftcms.stackexchange.com/questions/25427/craft-3-plugins-logging-in-a-separate-log-file
+      $file = Craft::getAlias('@storage/logs/guestentries-extension.log');
+      $log = date('Y-m-d H:i:s').' '.json_encode($submission)."\n";
+      \craft\helpers\FileHelper::writeToFile($file, $log, ['append' => true]);
+
+      Craft::$app->getMailer()->compose()
+      ->setTo($sellerMail)
+      ->setSubject($success_subject)
+      ->setTextBody($success_body)
+      ->send();
     });
 
   }
