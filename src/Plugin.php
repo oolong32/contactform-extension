@@ -115,6 +115,7 @@ class Plugin extends \craft\base\Plugin
       }
 
       // set up message text for success message to sender (buyer)
+      $locale = Craft::$app->getSites()->getCurrentSite()->language; // needed to decide what language the sender reads
       if ($locale == 'de') {
         $success_subject = 'Objekt erfolgreich erfasst';
         $success_body = "Das Objekt «".$entry->title."» wurde erfolgreich erfasst.\n\nEs wird nach redaktioneller Prüfung live geschaltet.\n\nFreundliche Grüsse,\nMarché Patrimoine";
@@ -128,6 +129,7 @@ class Plugin extends \craft\base\Plugin
       $file = Craft::getAlias('@storage/logs/guestentries-extension.log');
       $log = date('Y-m-d H:i:s').' '.json_encode($submission)."\n";
       \craft\helpers\FileHelper::writeToFile($file, $log, ['append' => true]);
+
 
       Craft::$app->getMailer()->compose()
       ->setTo($sellerMail)
