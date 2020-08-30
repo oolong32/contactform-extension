@@ -112,6 +112,7 @@ class Plugin extends \craft\base\Plugin
       }
       if (!$sellerMail) {
         $entry->sellerMail = $ownerMail;
+        $sellerMail = $ownerMail; // needed for success message
       }
 
       // set up message text for success message to sender (buyer)
@@ -123,6 +124,10 @@ class Plugin extends \craft\base\Plugin
         $success_subject = '…';
         $success_body = "Votre … « ".$entry->title." » a bien été transmis.\n\n…\n\nCordialement,\nMarché Patrimoine";
       }
+
+      $file = Craft::getAlias('@storage/logs/new-estate-form.log');
+      $log = date('Y-m-d H:i:s').' '.json_encode($sellerMail)."\n";
+      \craft\helpers\FileHelper::writeToFile($file, $log, ['append' => true]);
 
       Craft::$app->getMailer()->compose()
       ->setTo($sellerMail)
