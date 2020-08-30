@@ -124,13 +124,6 @@ class Plugin extends \craft\base\Plugin
         $success_body = "Votre … « ".$entry->title." » a bien été transmis.\n\n…\n\nCordialement,\nMarché Patrimoine";
       }
 
-      // Log to storage/logs/contactform-extension.log
-      // see Ben Croker’s answer – https://craftcms.stackexchange.com/questions/25427/craft-3-plugins-logging-in-a-separate-log-file
-      $file = Craft::getAlias('@storage/logs/guestentries-extension.log');
-      $log = date('Y-m-d H:i:s').' '.json_encode($submission)."\n";
-      \craft\helpers\FileHelper::writeToFile($file, $log, ['append' => true]);
-
-
       Craft::$app->getMailer()->compose()
       ->setTo($sellerMail)
       ->setSubject($success_subject)
