@@ -134,9 +134,9 @@ class Plugin extends \craft\base\Plugin
       Craft::$app->getMailer()->compose()
       ->setTo($sellerMail)
       //->setFrom("info@marchepatrimoine.ch") // should be alias or env var
-      ->setFrom([ 'info@marchepatrimoine.ch' => 'info@marchepatrimoine.ch']) // should be alias or env var
+      ->setFrom([ 'info@marchepatrimoine.ch' => 'Marché Patrimoine']) // should be alias or env var
       // ->setReplyTo("info@marchepatrimoine.ch")
-      ->setReplyTo([ 'mail@josefrenner.ch' => 'mail@josefrenner.ch']) // should be alias or env var
+      ->setReplyTo([ 'info@marchepatrimoine.ch' => 'Marché Patrimoine']) // should be alias or env var
       ->setSubject($success_subject)
       ->setTextBody($success_body)
       ->send();
