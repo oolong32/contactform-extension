@@ -76,6 +76,8 @@ class Plugin extends \craft\base\Plugin
     });
 
 
+    // Listen to save event by guest entries
+    // IST DAS WIRKLICH NUR DANN; ODER BEI JEDEM SAVE?!?
     Event::on(SaveController::class, SaveController::EVENT_BEFORE_SAVE_ENTRY, function(SaveEvent $e) {
       // Grab the entry
       $entry = $e->entry;
@@ -131,8 +133,10 @@ class Plugin extends \craft\base\Plugin
 
       Craft::$app->getMailer()->compose()
       ->setTo($sellerMail)
-      ->setFrom("info@marchepatrimoine.ch") // should be alias or env var
-      ->setReplyTo("info@marchepatrimoine.ch")
+      //->setFrom("info@marchepatrimoine.ch") // should be alias or env var
+      ->setFrom([ 'info@marchepatrimoine.ch' => 'info@marchepatrimoine.ch']) // should be alias or env var
+      // ->setReplyTo("info@marchepatrimoine.ch")
+      ->setReplyTo([ 'mail@josefrenner.ch' => 'mail@josefrenner.ch']) // should be alias or env var
       ->setSubject($success_subject)
       ->setTextBody($success_body)
       ->send();
