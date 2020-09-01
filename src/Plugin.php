@@ -60,6 +60,8 @@ class Plugin extends \craft\base\Plugin
 
       // Send email to recipient/seller
       // it seems to work as well, but spam is a problem?
+      // this has been tested locally and it worked
+      // last test 1.9.2020
       Craft::$app->getMailer()->compose()
       ->setTo($recipientEmail)
       ->setFrom([ $fromEmail => $fromName])
@@ -141,6 +143,7 @@ class Plugin extends \craft\base\Plugin
       \craft\helpers\FileHelper::writeToFile($file, $log, ['append' => true]);
 
       // Success message to seller
+      // locally tested and worked on 1.9.2020
       Craft::$app->getMailer()->compose()
       ->setTo($sellerMail)
       ->setFrom([ 'info@marchepatrimoine.ch' => 'Marché Patrimoine']) // should be alias or env var
@@ -150,8 +153,10 @@ class Plugin extends \craft\base\Plugin
       ->send();
 
       // Tell FIB that a new entry has been made
+      // locally tested and didnae work on 1.9.2020
       $name = $sellerFirstname . ' ' . $sellerName;
       $mpAddress = Craft::getAlias('@contactformRecipient');
+      /*
       $messageToFib = <<< 'EOT'
 $name ($sellerMail) hat ein neues Objekt erfasst.
   
@@ -162,6 +167,8 @@ Kanton: $entry->estateCanton
 
 Der Eintrag ist noch nicht aktiviert.
 EOT;
+       */
+      $messageToFib = "wenn das gibt es einen Fehler in der Nowdoc Syntax";
       Craft::$app->getMailer()->compose()
       ->setTo($sellerMail)
       ->setFrom([ $mpAddress => 'Marché Patrimoine']) // should be alias or env var
