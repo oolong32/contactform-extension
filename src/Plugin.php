@@ -146,8 +146,8 @@ class Plugin extends \craft\base\Plugin
       // locally tested and worked on 1.9.2020
       Craft::$app->getMailer()->compose()
       ->setTo($sellerMail)
-      ->setFrom([ 'info@marchepatrimoine.ch' => 'Marché Patrimoine']) // should be alias or env var
-      ->setReplyTo([ 'info@marchepatrimoine.ch' => 'Marché Patrimoine']) // should be alias or env var
+      ->setFrom([ 'info@marchepatrimoine.ch' => 'Marché Patrimoine'])
+      ->setReplyTo([ 'info@marchepatrimoine.ch' => 'Marché Patrimoine'])
       ->setSubject($success_subject)
       ->setTextBody($success_body)
       ->send();
@@ -156,8 +156,7 @@ class Plugin extends \craft\base\Plugin
       // locally tested and didnae work on 1.9.2020
       $name = $sellerFirstname . ' ' . $sellerName;
       $mpAddress = Craft::getAlias('@contactformRecipient');
-      /*
-      $messageToFib = <<< 'EOT'
+      $messageToFib = <<< EOT
 $name ($sellerMail) hat ein neues Objekt erfasst.
   
 Name: $entry->title
@@ -167,12 +166,10 @@ Kanton: $entry->estateCanton
 
 Der Eintrag ist noch nicht aktiviert.
 EOT;
-       */
-      $messageToFib = "wenn das gibt es einen Fehler in der Nowdoc Syntax";
       Craft::$app->getMailer()->compose()
-      ->setTo($sellerMail)
-      ->setFrom([ $mpAddress => 'Marché Patrimoine']) // should be alias or env var
-      ->setReplyTo([ $mpAddress => 'Marché Patrimoine']) // should be alias or env var
+      ->setTo([ $mpAddress => 'Marché Patrimoine'])
+      ->setFrom([ $mpAddress => 'Marché Patrimoine'])
+      ->setReplyTo([ $mpAddress => 'Marché Patrimoine'])
       ->setSubject('Neues Objekt auf Marché Patrimoine')
       ->setTextBody($messageToFib)
       ->send();
