@@ -161,8 +161,8 @@ $name ($sellerMail) hat ein neues Objekt erfasst.
   
 Name: $entry->title
 Typ: $entry->estateType
-Ort: $entry->estateLocation
-Kanton: $entry->estateCanton
+Ort: $entry->location
+Kanton: $entry->canton
 
 Der Eintrag ist noch nicht aktiviert.
 EOT;
