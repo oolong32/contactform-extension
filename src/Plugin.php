@@ -23,12 +23,13 @@ class Plugin extends \craft\base\Plugin
       $locale = Craft::$app->getSites()->getCurrentSite()->language; // needed to decide what language the sender reads
 
       $submission = $e->sender; // what contactForm.vue submits
-      $fromEmail = $submission->fromEmail; // sender/seller
-      $recipientEmail = $submission->message["recipientEmail"]; // recipient/buyer
+      $fromEmail = $submission->fromEmail; // sender/buyer (contacts seller)
+      $fromName = $submission->fromName; // 
+      $recipientEmail = $submission->message["recipientEmail"]; // recipient aka. seller (to be contacted)
       $subject = $submission->subject; // message subject
       $body = $submission->message["body"];// message
-      $success_subject = null; // success message to sender/seller
-      $success_body = null;// success message to sender/seller
+      $success_subject = null; // success message to sender/buyer
+      $success_body = null;// success message to sender/buyer
 
       // set up message text for success message to sender (buyer)
       if ($locale == 'de') {
@@ -49,14 +50,18 @@ class Plugin extends \craft\base\Plugin
       // this has been tested locally and it worked
       Craft::$app->getMailer()->compose()
       ->setTo($fromEmail)
+      ->setFrom([ 'info@marchepatrimoine.ch' => 'Marché Patrimoine']) // should be alias or env var
+      ->setReplyTo([ 'info@marchepatrimoine.ch' => 'Marché Patrimoine']) // should be alias or env var
       ->setSubject($success_subject)
       ->setTextBody($success_body)
       ->send();
 
       // Send email to recipient/seller
-      // it seems to work as well, but spam is a problem
+      // it seems to work as well, but spam is a problem?
       Craft::$app->getMailer()->compose()
       ->setTo($recipientEmail)
+      ->setFrom([ 'info@marchepatrimoine.ch' => $fromName])
+      ->setReplyTo([ 'info@marchepatrimoine.ch' => $fromName])
       ->setSubject($subject)
       ->setTextBody($body)
       ->send();
@@ -133,9 +138,7 @@ class Plugin extends \craft\base\Plugin
 
       Craft::$app->getMailer()->compose()
       ->setTo($sellerMail)
-      //->setFrom("info@marchepatrimoine.ch") // should be alias or env var
       ->setFrom([ 'info@marchepatrimoine.ch' => 'Marché Patrimoine']) // should be alias or env var
-      // ->setReplyTo("info@marchepatrimoine.ch")
       ->setReplyTo([ 'info@marchepatrimoine.ch' => 'Marché Patrimoine']) // should be alias or env var
       ->setSubject($success_subject)
       ->setTextBody($success_body)
