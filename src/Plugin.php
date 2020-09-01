@@ -46,12 +46,13 @@ class Plugin extends \craft\base\Plugin
       $log = date('Y-m-d H:i:s').' '.json_encode($submission)."\n";
       \craft\helpers\FileHelper::writeToFile($file, $log, ['append' => true]);
 
+      $mpAddress = Craft::getAlias('@contactformRecipient'); // obviously this alias’ name was badly chosen
       // Send email to sender/buyer
       // this has been tested locally and it worked
       Craft::$app->getMailer()->compose()
       ->setTo($fromEmail)
-      ->setFrom([ 'info@marchepatrimoine.ch' => 'Marché Patrimoine']) // should be alias or env var
-      ->setReplyTo([ 'info@marchepatrimoine.ch' => 'Marché Patrimoine']) // should be alias or env var
+      ->setFrom([ $mpAddress => 'Marché Patrimoine']) // should be alias or env var
+      ->setReplyTo([ $mpAddress => 'Marché Patrimoine']) // should be alias or env var
       ->setSubject($success_subject)
       ->setTextBody($success_body)
       ->send();
@@ -149,6 +150,7 @@ class Plugin extends \craft\base\Plugin
 
       // Tell FIB that a new entry has been made
       $name = $sellerFirstname . ' ' . $sellerName;
+      $mpAddress = Craft::getAlias('@contactformRecipient');
       $messageToFib = <<< 'EOT'
 $name ($sellerMail) hat ein neues Objekt erfasst.
   
@@ -161,8 +163,8 @@ Der Eintrag ist noch nicht aktiviert.
 EOT;
       Craft::$app->getMailer()->compose()
       ->setTo($sellerMail)
-      ->setFrom([ 'info@marchepatrimoine.ch' => 'Marché Patrimoine']) // should be alias or env var
-      ->setReplyTo([ 'info@marchepatrimoine.ch' => 'Marché Patrimoine']) // should be alias or env var
+      ->setFrom([ $mpAddress => 'Marché Patrimoine']) // should be alias or env var
+      ->setReplyTo([ $mpAddress => 'Marché Patrimoine']) // should be alias or env var
       ->setSubject('Neues Objekt auf Marché Patrimoine')
       ->setTextBody($messageToFib)
       ->send();
