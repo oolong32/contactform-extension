@@ -49,6 +49,7 @@ class Plugin extends \craft\base\Plugin
       $mpAddress = Craft::getAlias('@contactformRecipient'); // obviously this alias’ name was badly chosen
       // Send email to sender/buyer
       // this has been tested locally and it worked
+      // last test 1.9.2020
       Craft::$app->getMailer()->compose()
       ->setTo($fromEmail)
       ->setFrom([ $mpAddress => 'Marché Patrimoine']) // should be alias or env var
@@ -61,8 +62,8 @@ class Plugin extends \craft\base\Plugin
       // it seems to work as well, but spam is a problem?
       Craft::$app->getMailer()->compose()
       ->setTo($recipientEmail)
-      ->setFrom([ 'info@marchepatrimoine.ch' => $fromName])
-      ->setReplyTo([ 'info@marchepatrimoine.ch' => $fromName])
+      ->setFrom([ $fromEmail => $fromName])
+      ->setReplyTo([ $fromEmail => $fromName])
       ->setSubject($subject)
       ->setTextBody($body)
       ->send();
