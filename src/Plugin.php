@@ -1,6 +1,12 @@
 <?php
 namespace stillhart;
 
+// this handles the dispaching of email messages by
+// - contact form (to buyer and seller)
+// - new estate form (to MP and seller)
+// a fifth mail message is sent by the contact-form plugin
+// it would be nice if we could override this as well, but how?
+
 // for contact form
 use Craft;
 use craft\contactform\models\Submission;
@@ -49,7 +55,7 @@ class Plugin extends \craft\base\Plugin
       $mpAddress = Craft::getAlias('@contactformRecipient'); // obviously this alias’ name was badly chosen
       // Send email to sender/buyer
       // this has been tested locally and it worked
-      // last test 1.9.2020
+      // tested on staging and worked on 1.9.2020
       Craft::$app->getMailer()->compose()
       ->setTo($fromEmail)
       ->setFrom([ $mpAddress => 'Marché Patrimoine']) // should be alias or env var
@@ -61,7 +67,7 @@ class Plugin extends \craft\base\Plugin
       // Send email to recipient/seller
       // it seems to work as well, but spam is a problem?
       // this has been tested locally and it worked
-      // last test 1.9.2020
+      // tested on staging and worked on 1.9.2020
       Craft::$app->getMailer()->compose()
       ->setTo($recipientEmail)
       ->setFrom([ $fromEmail => $fromName])
@@ -143,12 +149,16 @@ class Plugin extends \craft\base\Plugin
       $log = date('Y-m-d H:i:s').' '.json_encode($sellerMail)."\n";
       \craft\helpers\FileHelper::writeToFile($file, $log, ['append' => true]);
 
+      // get address from alias (in config/general, .env variable per environment)
+      $mpAddress = Craft::getAlias('@contactformRecipient');
+
       // Success message to seller
       // locally tested and worked on 1.9.2020
+      // tested on staging and worked on 1.9.2020
       Craft::$app->getMailer()->compose()
       ->setTo($sellerMail)
-      ->setFrom([ 'info@marchepatrimoine.ch' => 'Marché Patrimoine'])
-      ->setReplyTo([ 'info@marchepatrimoine.ch' => 'Marché Patrimoine'])
+      ->setFrom([ $mpAddress => 'Marché Patrimoine'])
+      ->setReplyTo([ $mpAddress => 'Marché Patrimoine'])
       ->setSubject($success_subject)
       ->setTextBody($success_body)
       ->send();
@@ -156,7 +166,6 @@ class Plugin extends \craft\base\Plugin
       // Tell FIB that a new entry has been made
       // locally tested and didnae work on 1.9.2020
       $name = $sellerFirstname . ' ' . $sellerName;
-      $mpAddress = Craft::getAlias('@contactformRecipient');
       $messageToFib = <<< EOT
 $name ($sellerMail) hat ein neues Objekt erfasst.
   
@@ -165,6 +174,7 @@ Ort: $entry->location
 
 Der Eintrag ist noch nicht aktiviert.
 EOT;
+      // tested on staging and worked on 1.9.2020
       Craft::$app->getMailer()->compose()
       ->setTo([ $mpAddress => 'Marché Patrimoine'])
       ->setFrom([ $mpAddress => 'Marché Patrimoine'])
