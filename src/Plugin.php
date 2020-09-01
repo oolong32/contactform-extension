@@ -107,9 +107,11 @@ class Plugin extends \craft\base\Plugin
 
       if (!$sellerName) {
         $entry->sellerName = $ownerName;
+        $sellerName = $ownerName; // needed for message to fib
       }
       if (!$sellerFirstname) {
         $entry->sellerFirstname = $ownerFirstname;
+        $sellerFirstname = $ownerFirstname; // needed for message to fib
       }
       if (!$sellerFirma) {
         $entry->sellerFirma = $ownerFirma;
@@ -136,6 +138,7 @@ class Plugin extends \craft\base\Plugin
       $log = date('Y-m-d H:i:s').' '.json_encode($sellerMail)."\n";
       \craft\helpers\FileHelper::writeToFile($file, $log, ['append' => true]);
 
+      // Success message to seller
       Craft::$app->getMailer()->compose()
       ->setTo($sellerMail)
       ->setFrom([ 'info@marchepatrimoine.ch' => 'Marché Patrimoine']) // should be alias or env var
@@ -143,6 +146,27 @@ class Plugin extends \craft\base\Plugin
       ->setSubject($success_subject)
       ->setTextBody($success_body)
       ->send();
+
+      // Tell FIB that a new entry has been made
+      $name = $sellerFirstname . ' ' . $sellerName;
+      $messageToFib = <<< 'EOT'
+$name ($sellerMail) hat ein neues Objekt erfasst.
+  
+Name: $entry->title
+Typ: $entry->estateType
+Ort: $entry->estateLocation
+Kanton: $entry->estateCanton
+
+Der Eintrag ist noch nicht aktiviert.
+EOT;
+      Craft::$app->getMailer()->compose()
+      ->setTo($sellerMail)
+      ->setFrom([ 'info@marchepatrimoine.ch' => 'Marché Patrimoine']) // should be alias or env var
+      ->setReplyTo([ 'info@marchepatrimoine.ch' => 'Marché Patrimoine']) // should be alias or env var
+      ->setSubject('Neues Objekt auf Marché Patrimoine')
+      ->setTextBody($messageToFib)
+      ->send();
+
     });
 
   }
