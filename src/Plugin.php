@@ -86,7 +86,8 @@ class Plugin extends \craft\base\Plugin
 
 
     // Listen to save event by guest entries
-    // IST DAS WIRKLICH NUR DANN; ODER BEI JEDEM SAVE?!?
+    // https://github.com/craftcms/contact-form
+    // https://craftcms.stackexchange.com/questions/27267/guest-entries-how-i-can-send-message-to-user-after-saving-form-information
     Event::on(SaveController::class, SaveController::EVENT_BEFORE_SAVE_ENTRY, function(SaveEvent $e) {
       // Grab the entry
       $entry = $e->entry;
@@ -160,9 +161,7 @@ class Plugin extends \craft\base\Plugin
 $name ($sellerMail) hat ein neues Objekt erfasst.
   
 Name: $entry->title
-Typ: $entry->estateType
 Ort: $entry->location
-Kanton: $entry->canton
 
 Der Eintrag ist noch nicht aktiviert.
 EOT;
@@ -175,6 +174,5 @@ EOT;
       ->send();
 
     });
-
   }
 }
