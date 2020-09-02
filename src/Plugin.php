@@ -5,7 +5,8 @@ namespace stillhart;
 // - contact form (to buyer and seller)
 // - new estate form (to MP and seller)
 // a fifth mail message is sent by the contact-form plugin
-// it would be nice if we could override this as well, but how?
+// this fifth message is handled in config/contact-form.php,
+// i.e. the plugin settings are overriden!
 
 // for contact form
 use Craft;
