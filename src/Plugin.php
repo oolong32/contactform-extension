@@ -44,7 +44,7 @@ class Plugin extends \craft\base\Plugin
         $success_body = "Ihre Nachricht mit dem Betreff: «".$subject."» wurde erfolgreich übermittelt.\n\nFreundliche Grüsse,\nMarché Patrimoine";
       } else {
         $success_subject = 'Message transmis.';
-        $success_body = "Votre Message au sujet de : « ".$subject." » a bien été transmis.\n\nCordialement,\nMarché Patrimoine";
+        $success_body = "Votre message concernant : « ".$subject." » a été transmis.\n\nAvec nos meilleures salutations.\nMarché Patrimoine";
       }
       
       // Log to storage/logs/contactform-extension.log
@@ -143,7 +143,7 @@ class Plugin extends \craft\base\Plugin
         $success_body = "Das Objekt «".$entry->title."» wurde erfolgreich erfasst.\n\nEs wird nach redaktioneller Prüfung live geschaltet.\n\nFreundliche Grüsse,\nMarché Patrimoine";
       } else {
         $success_subject = '…';
-        $success_body = "Votre … « ".$entry->title." » a bien été transmis.\n\n…\n\nCordialement,\nMarché Patrimoine";
+        $success_body = "Le bien « ".$entry->title." » a été enregistré\n\nIl sera mis en ligne après notre contrôle rédactionnel.\n\nAvec nos meilleures salutations.,\nMarché Patrimoine";
       }
 
       $file = Craft::getAlias('@storage/logs/new-estate-form.log');
