@@ -32,12 +32,12 @@ class Plugin extends \craft\base\Plugin
 
 
       $submission = $e->sender; // what contactForm.vue submits
-      $foo = $e->message["foo"]; // test custom value
       $fromEmail = $submission->fromEmail; // sender/buyer (contacts seller)
       $fromName = $submission->fromName; // 
       $recipientEmail = $submission->message["recipientEmail"]; // recipient aka. seller (to be contacted)
       $subject = $submission->subject; // message subject
       $body = $submission->message["body"];// message
+      $foo = $submission->message["foo"]; // test custom value
       $success_subject = null; // success message to sender/buyer
       $success_body = null;// success message to sender/buyer
 

@@ -1,7 +1,7 @@
 {
   "name": "stillhartkonzept/contactform-extension",
   "description": "An extension to the contact-form plugin. It should mail a success message to the sender and alter the original plugin’s template.",
-  "version": "1.5.5",
+  "version": "1.5.6",
   "type": "craft-plugin",
   "keywords": ["contact form template", "mail messaging"],
   "license": "MIT",
