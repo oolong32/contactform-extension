@@ -27,7 +27,7 @@ class Plugin extends \craft\base\Plugin
     // Listen for Submissions to/by Contact-Form Plugin
     Event::on(Submission::class, Submission::EVENT_AFTER_VALIDATE, function(Event $e) {
 
-      $locale = Craft::$app->getSites()->getCurrentSite()->language; // needed to decide what language the sender reads
+      // $locale = Craft::$app->getSites()->getCurrentSite()->language; // needed to decide what language the sender reads
       // this doesn’t work, always seems to get "de"
 
 
@@ -37,7 +37,7 @@ class Plugin extends \craft\base\Plugin
       $recipientEmail = $submission->message["recipientEmail"]; // recipient aka. seller (to be contacted)
       $subject = $submission->subject; // message subject
       $body = $submission->message["body"];// message
-      $foo = $submission->message["foo"]; // test custom value
+      $locale = $submission->message["locale"]; // test custom value
       $success_subject = null; // success message to sender/buyer
       $success_body = null;// success message to sender/buyer
 
