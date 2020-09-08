@@ -146,7 +146,7 @@ class Plugin extends \craft\base\Plugin
       }
 
       $file = Craft::getAlias('@storage/logs/new-estate-form.log');
-      $log = date('m-d H:i').' '.json_encode($sellerMail)."\n";
+      $log = date('m-d H:i').' '. $locale .' '.json_encode($sellerMail)."\n";
       \craft\helpers\FileHelper::writeToFile($file, $log, ['append' => true]);
 
       // get address from alias (in config/general, .env variable per environment)
