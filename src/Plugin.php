@@ -28,8 +28,11 @@ class Plugin extends \craft\base\Plugin
     Event::on(Submission::class, Submission::EVENT_AFTER_VALIDATE, function(Event $e) {
 
       $locale = Craft::$app->getSites()->getCurrentSite()->language; // needed to decide what language the sender reads
+      // this doesn’t work, always seems to get "de"
+
 
       $submission = $e->sender; // what contactForm.vue submits
+      $foo = $e->message["foo"]; // test custom value
       $fromEmail = $submission->fromEmail; // sender/buyer (contacts seller)
       $fromName = $submission->fromName; // 
       $recipientEmail = $submission->message["recipientEmail"]; // recipient aka. seller (to be contacted)
@@ -50,7 +53,7 @@ class Plugin extends \craft\base\Plugin
       // Log to storage/logs/contactform-extension.log
       // see Ben Croker’s answer – https://craftcms.stackexchange.com/questions/25427/craft-3-plugins-logging-in-a-separate-log-file
       $file = Craft::getAlias('@storage/logs/contactform-extension.log');
-      $log = date('m-d H:i').' Locale: ' . $locale .', submission: '.json_encode($submission)."\n";
+      $log = date('m-d H:i').' Foo: ' . $foo .', submission: '.json_encode($submission)."\n";
       \craft\helpers\FileHelper::writeToFile($file, $log, ['append' => true]);
 
       $mpAddress = Craft::getAlias('@contactformRecipient'); // obviously this alias’ name was badly chosen
