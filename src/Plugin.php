@@ -50,7 +50,7 @@ class Plugin extends \craft\base\Plugin
       // Log to storage/logs/contactform-extension.log
       // see Ben Croker’s answer – https://craftcms.stackexchange.com/questions/25427/craft-3-plugins-logging-in-a-separate-log-file
       $file = Craft::getAlias('@storage/logs/contactform-extension.log');
-      $log = date('Y-m-d H:i:s').' '.json_encode($submission)."\n";
+      $log = date('m-d H:i').' '.json_encode($submission)."\n";
       \craft\helpers\FileHelper::writeToFile($file, $log, ['append' => true]);
 
       $mpAddress = Craft::getAlias('@contactformRecipient'); // obviously this alias’ name was badly chosen
@@ -78,7 +78,6 @@ class Plugin extends \craft\base\Plugin
       ->send();
     });
 
-
     Event::on(SaveController::class, SaveController::EVENT_AFTER_ERROR, function(SaveEvent $e) {
       // Grab the entry
       $entry = $e->entry;
@@ -87,7 +86,7 @@ class Plugin extends \craft\base\Plugin
       $errors = $entry->getErrors();
       
       $file = Craft::getAlias('@storage/logs/bloody-estate-form.log');
-      $log = date('Y-m-d H:i:s').' '.json_encode($errors)."\n";
+      $log = date('m-d H:i').' '.json_encode($errors)."\n";
       \craft\helpers\FileHelper::writeToFile($file, $log, ['append' => true]);
     });
 
@@ -147,7 +146,7 @@ class Plugin extends \craft\base\Plugin
       }
 
       $file = Craft::getAlias('@storage/logs/new-estate-form.log');
-      $log = date('Y-m-d H:i:s').' '.json_encode($sellerMail)."\n";
+      $log = date('m-d H:i').' '.json_encode($sellerMail)."\n";
       \craft\helpers\FileHelper::writeToFile($file, $log, ['append' => true]);
 
       // get address from alias (in config/general, .env variable per environment)
