@@ -141,7 +141,7 @@ class Plugin extends \craft\base\Plugin
         $success_subject = 'Objekt erfolgreich erfasst';
         $success_body = "Das Objekt «".$entry->title."» wurde erfolgreich erfasst.\n\nEs wird nach redaktioneller Prüfung live geschaltet.\n\nFreundliche Grüsse,\nMarché Patrimoine";
       } else {
-        $success_subject = '…';
+        $success_subject = 'Objet enregistré';
         $success_body = "Le bien « ".$entry->title." » a été enregistré\n\nIl sera mis en ligne après notre contrôle rédactionnel.\n\nAvec nos meilleures salutations.,\nMarché Patrimoine";
       }
 
