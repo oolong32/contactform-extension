@@ -52,9 +52,11 @@ class Plugin extends \craft\base\Plugin
       
       // Log to storage/logs/contactform-extension.log
       // see Ben Croker’s answer – https://craftcms.stackexchange.com/questions/25427/craft-3-plugins-logging-in-a-separate-log-file
+      /*
       $file = Craft::getAlias('@storage/logs/contactform-extension.log');
       $log = date('m-d H:i').' Locale: ' . $locale .', submission: '.json_encode($submission)."\n";
       \craft\helpers\FileHelper::writeToFile($file, $log, ['append' => true]);
+       */
 
       $mpAddress = Craft::getAlias('@contactformRecipient'); // obviously this alias’ name was badly chosen
       // Send email to sender/buyer
@@ -88,9 +90,11 @@ class Plugin extends \craft\base\Plugin
       // Get any validation errors
       $errors = $entry->getErrors();
       
+      /*
       $file = Craft::getAlias('@storage/logs/bloody-estate-form.log');
       $log = date('m-d H:i').' '.json_encode($errors)."\n";
       \craft\helpers\FileHelper::writeToFile($file, $log, ['append' => true]);
+       */
     });
 
 
@@ -148,9 +152,11 @@ class Plugin extends \craft\base\Plugin
         $success_body = "Le bien « ".$entry->title." » a été enregistré\n\nIl sera mis en ligne après notre contrôle rédactionnel.\n\nAvec nos meilleures salutations.,\nMarché Patrimoine";
       }
 
+      /*J
       $file = Craft::getAlias('@storage/logs/new-estate-form.log');
       $log = date('m-d H:i').' Locale: '. $locale .' Author of new entry who needs a confirmation mail:'.json_encode($sellerMail)."\n";
       \craft\helpers\FileHelper::writeToFile($file, $log, ['append' => true]);
+       */
 
       // get address from alias (in config/general, .env variable per environment)
       $mpAddress = Craft::getAlias('@contactformRecipient');
