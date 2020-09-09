@@ -21,15 +21,19 @@ use craft\guestentries\events\SaveEvent;
 // Address string needed in signature
 $mpContact = <<<EOD
 c/o Stiftung Ferien im Baudenkmal
-Zollikerstrasse 128, 8008 Zürich
-T 044 252 28 72 , info@marchepatrimoine.ch
+Zollikerstrasse 128
+8008 Zürich
+info@marchepatrimoine.ch
+T 044 252 28 72
 
 marchepatrimoine.ch
 EOD;
 
 // German Signature
 $signature_de = <<<EOD
+
 --
+
 Diese Mail wurde von marchepatrimoine.ch generiert.
 
 Marché Patrimoine
@@ -40,7 +44,9 @@ EOD;
 
 // French Signature
 $signature_fr = <<<EOD
+
 --
+
 Ce message a été généré par marchepatrimoine.ch
 
 Marché Patrimoine
@@ -59,10 +65,6 @@ class Plugin extends \craft\base\Plugin
     // Listen for Submissions to/by Contact-Form Plugin
     Event::on(Submission::class, Submission::EVENT_AFTER_VALIDATE, function(Event $e) {
 
-      // $locale = Craft::$app->getSites()->getCurrentSite()->language; // needed to decide what language the sender reads
-      // this doesn’t work, always seems to get "de"
-
-
       $submission = $e->sender; // what contactForm.vue submits
       $fromEmail = $submission->fromEmail; // sender/buyer (contacts seller)
       $fromName = $submission->fromName; // 
@@ -70,18 +72,53 @@ class Plugin extends \craft\base\Plugin
       $subject = $submission->subject; // message subject
       $body = $submission->message["body"];// message
       $locale = $submission->message["locale"]; // test custom value
+      $estateName = $submission->message["estateName"]; // test custom value
       $success_subject = null; // success message to sender/buyer
       $success_body = null;// success message to sender/buyer
 
-      // set up message text for success message to sender (buyer)
       if ($locale == 'de') {
+
+        // set up german message text for success message to sender (buyer)
         $success_subject = 'Nachricht erfolgreich übermittelt';
         $success_body = "Ihre Nachricht mit dem Betreff: «".$subject."» wurde erfolgreich übermittelt.\n\nFreundliche Grüsse,\nMarché Patrimoine";
-      } else {
-        $success_subject = 'Message transmis.';
-        $success_body = "Votre message concernant : « ".$subject." » a été transmis.\n\nAvec nos meilleures salutations.\nMarché Patrimoine";
+        $success_body = <<<EOD
+Ihre Nachricht mit dem Betreff: «$subject» wurde erfolgreich übermittelt.
+
+Der/die Verkäufer/in des Objektes «$estateName» wird sich mit Ihnen in Verbindung setzen.
+
+Freundliche Grüsse,
+Marché Patrimoine
+
+$signature_de
+EOD;
+        // set up german subject for message to recipient (seller)
+        $recipientSubject = 'Anfrage zu ihrem Objekt';
+
+      } else { // $locale != 'de'
+
+        // set up french message text for success message to sender (buyer)
+        $success_subject = "Message transmis avec success";
+        $success_body = <<<EOD
+Votre message concernant : « $subject » a été transmis.
+
+Le vendeur de l’objet « $estateName » vous contactera.
+
+Avec nos meilleures salutations,
+Marché Patrimoine
+
+$signature_fr
+EOD;
+
+        // set up french subject for message to recipient (seller)
+        $recipient_subject = 'Demande d’offre';
       }
       
+// compose body of message to recipient (seller)
+$recipient_body = <<<EOD
+$recipient_subject
+
+$body
+EOD;
       // Log to storage/logs/contactform-extension.log
       // see Ben Croker’s answer – https://craftcms.stackexchange.com/questions/25427/craft-3-plugins-logging-in-a-separate-log-file
       /*
