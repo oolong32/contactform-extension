@@ -18,6 +18,17 @@ use craft\guestentries\controllers\SaveController;
 use craft\guestentries\events\SaveEvent;
 
 
+
+class Plugin extends \craft\base\Plugin
+{
+  public function init()
+  {
+    parent::init();
+
+
+    // Listen for Submissions to/by Contact-Form Plugin
+    Event::on(Submission::class, Submission::EVENT_AFTER_VALIDATE, function(Event $e) {
+
 // Address string needed in signature
 $mpContact = <<<EOD
 c/o Stiftung Ferien im Baudenkmal
@@ -54,17 +65,6 @@ La plateforme des bâtiments historiques
 
 {$mpContact}
 EOD;
-
-
-class Plugin extends \craft\base\Plugin
-{
-  public function init()
-  {
-    parent::init();
-
-
-    // Listen for Submissions to/by Contact-Form Plugin
-    Event::on(Submission::class, Submission::EVENT_AFTER_VALIDATE, function(Event $e) {
 
       $submission = $e->sender; // what contactForm.vue submits
 
@@ -171,6 +171,45 @@ EOD;
     });
 
     Event::on(SaveController::class, SaveController::EVENT_AFTER_ERROR, function(SaveEvent $e) {
+
+// Address string needed in signature
+$mpContact = <<<EOD
+c/o Stiftung Ferien im Baudenkmal
+Zollikerstrasse 128
+8008 Zürich
+info@marchepatrimoine.ch
+T 044 252 28 72
+
+marchepatrimoine.ch
+EOD;
+
+// German Signature
+$signature_de = <<<EOD
+
+--
+
+Diese Mail wurde von marchepatrimoine.ch generiert.
+
+Marché Patrimoine
+Die Plattform für Baudenkmäler
+
+{$mpContact}
+EOD;
+
+// French Signature
+$signature_fr = <<<EOD
+
+--
+
+Ce message a été généré par marchepatrimoine.ch
+
+Marché Patrimoine
+La plateforme des bâtiments historiques
+
+{$mpContact}
+EOD;
+
+
       // Grab the entry
       $entry = $e->entry;
 
