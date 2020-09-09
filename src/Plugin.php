@@ -39,7 +39,7 @@ Diese Mail wurde von marchepatrimoine.ch generiert.
 Marché Patrimoine
 Die Plattform für Baudenkmäler
 
-$mpContact
+{$mpContact}
 EOD;
 
 // French Signature
@@ -52,7 +52,7 @@ Ce message a été généré par marchepatrimoine.ch
 Marché Patrimoine
 La plateforme des bâtiments historiques
 
-$mpContact
+{$mpContact}
 EOD;
 
 
@@ -91,25 +91,25 @@ class Plugin extends \craft\base\Plugin
         // set up german message text for success message to sender (buyer)
         $success_subject = 'Nachricht erfolgreich übermittelt';
         $success_body = <<<EOD
-Ihre Nachricht mit dem Betreff: «\$subject» wurde erfolgreich übermittelt.
+Ihre Nachricht mit dem Betreff: «{$subject}» wurde erfolgreich übermittelt.
 
 Der/die Verkäufer/in des Objektes «{$estateName}» wird sich mit Ihnen in Verbindung setzen.
 
 Freundliche Grüsse,
 Marché Patrimoine
 
-$signature_de
+{$signature_de}
 EOD;
 
         // set up german subject for message to recipient (seller)
         $recipientSubject = 'Anfrage zu ihrem Objekt';
         // set up german body of message to recipient (seller)
         $recipient_body = <<<EOD
-\$subject
+{$subject}
 
 $body
 
-$signature_de
+{$signature_de}
 EOD;
 
       } else { // $locale != 'de'
@@ -124,18 +124,18 @@ Le vendeur de l’objet « {$estateName} » vous contactera.
 Avec nos meilleures salutations,
 Marché Patrimoine
 
-$signature_fr
+{$signature_fr}
 EOD;
 
         // set up french subject for message to recipient (seller)
         $recipient_subject = 'Demande d’offre';
         // set up french body of message to recipient (seller)
         $recipient_body = <<<EOD
-\$subject
+{$subject}
 
 $body
 
-$signature_fr
+{$signature_fr}
 EOD;
       }
       
@@ -239,7 +239,7 @@ Es wird nach redaktioneller Prüfung live geschaltet.
 Freundliche Grüsse,
 Marché Patrimoine"
 
-$signature_de
+{$signature_de}
 EOD;
       } else {
         $success_subject = 'Objet enregistré avec succès';
@@ -251,7 +251,7 @@ Il sera mis en ligne après notre contrôle rédactionnel.
 Avec nos meilleures salutations.,
 Marché Patrimoine"
 
-$signatire_fr
+{$signature_fr}
 EOD;
       }
 
