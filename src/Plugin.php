@@ -80,7 +80,6 @@ class Plugin extends \craft\base\Plugin
 
         // set up german message text for success message to sender (buyer)
         $success_subject = 'Nachricht erfolgreich übermittelt';
-        $success_body = "Ihre Nachricht mit dem Betreff: «".$subject."» wurde erfolgreich übermittelt.\n\nFreundliche Grüsse,\nMarché Patrimoine";
         $success_body = <<<EOD
 Ihre Nachricht mit dem Betreff: «$subject» wurde erfolgreich übermittelt.
 
