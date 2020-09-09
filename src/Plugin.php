@@ -63,6 +63,19 @@ class Plugin extends \craft\base\Plugin
     parent::init();
 
     // Listen for Submissions to/by Contact-Form Plugin
+    Event::on(Submission::class, Submission::EVENT_AFTER_ERROR, function(Event $e) {
+      // Grab the stuff
+      $submission = $e->sender;
+
+      // Get any validation errors
+      $errors = $submission->getErrors();
+      
+      $file = Craft::getAlias('@storage/logs/effing-contact-form.log');
+      $log = date('m-d H:i').' '.json_encode($errors)."\n";
+      \craft\helpers\FileHelper::writeToFile($file, $log, ['append' => true]);
+    });
+
+    // Listen for Submissions to/by Contact-Form Plugin
     Event::on(Submission::class, Submission::EVENT_AFTER_VALIDATE, function(Event $e) {
 
       $submission = $e->sender; // what contactForm.vue submits
@@ -131,11 +144,9 @@ EOD;
       
       // Log to storage/logs/contactform-extension.log
       // see Ben Croker’s answer – https://craftcms.stackexchange.com/questions/25427/craft-3-plugins-logging-in-a-separate-log-file
-      /*
       $file = Craft::getAlias('@storage/logs/contactform-extension.log');
       $log = date('m-d H:i').' Locale: ' . $locale .', submission: '.json_encode($submission)."\n";
       \craft\helpers\FileHelper::writeToFile($file, $log, ['append' => true]);
-       */
 
       $mpAddress = Craft::getAlias('@contactformRecipient'); // obviously this alias’ name was badly chosen
       // Send email to sender/buyer
@@ -169,11 +180,9 @@ EOD;
       // Get any validation errors
       $errors = $entry->getErrors();
       
-      /*
       $file = Craft::getAlias('@storage/logs/bloody-estate-form.log');
       $log = date('m-d H:i').' '.json_encode($errors)."\n";
       \craft\helpers\FileHelper::writeToFile($file, $log, ['append' => true]);
-       */
     });
 
 
@@ -249,7 +258,7 @@ $signatire_fr
 EOD;
       }
 
-      /*J
+      /*
       $file = Craft::getAlias('@storage/logs/new-estate-form.log');
       $log = date('m-d H:i').' Locale: '. $locale .' Author of new entry who needs a confirmation mail:'.json_encode($sellerMail)."\n";
       \craft\helpers\FileHelper::writeToFile($file, $log, ['append' => true]);
