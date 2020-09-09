@@ -68,11 +68,13 @@ class Plugin extends \craft\base\Plugin
 
       $submission = $e->sender; // what contactForm.vue submits
 
+      /*
       // try getting errors
       $errors = $submission->getErrors();
       $file = Craft::getAlias('@storage/logs/effing-contact-form.log');
       $log = date('m-d H:i').' '.json_encode($errors)."\n";
       \craft\helpers\FileHelper::writeToFile($file, $log, ['append' => true]);
+       */
 
       $fromEmail = $submission->fromEmail; // sender/buyer (contacts seller)
       $fromName = $submission->fromName; // 
@@ -89,7 +91,7 @@ class Plugin extends \craft\base\Plugin
         // set up german message text for success message to sender (buyer)
         $success_subject = 'Nachricht erfolgreich übermittelt';
         $success_body = <<<EOD
-Ihre Nachricht mit dem Betreff: «$subject» wurde erfolgreich übermittelt.
+Ihre Nachricht mit dem Betreff: «\$subject» wurde erfolgreich übermittelt.
 
 Der/die Verkäufer/in des Objektes «$estateName» wird sich mit Ihnen in Verbindung setzen.
 
@@ -103,7 +105,7 @@ EOD;
         $recipientSubject = 'Anfrage zu ihrem Objekt';
         // set up german body of message to recipient (seller)
         $recipient_body = <<<EOD
-$subject
+\$subject
 
 $body
 
@@ -115,7 +117,7 @@ EOD;
         // set up french message text for success message to sender (buyer)
         $success_subject = "Message transmis avec success";
         $success_body = <<<EOD
-Votre message concernant : « $subject » a été transmis.
+Votre message concernant : « \$subject » a été transmis.
 
 Le vendeur de l’objet « $estateName » vous contactera.
 
@@ -129,7 +131,7 @@ EOD;
         $recipient_subject = 'Demande d’offre';
         // set up french body of message to recipient (seller)
         $recipient_body = <<<EOD
-$subject
+\$subject
 
 $body
 
