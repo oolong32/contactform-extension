@@ -62,23 +62,18 @@ class Plugin extends \craft\base\Plugin
   {
     parent::init();
 
-    // Listen for Submissions to/by Contact-Form Plugin
-    Event::on(Submission::class, Submission::EVENT_AFTER_ERROR, function(Event $e) {
-      // Grab the stuff
-      $submission = $e->sender;
-
-      // Get any validation errors
-      $errors = $submission->getErrors();
-      
-      $file = Craft::getAlias('@storage/logs/effing-contact-form.log');
-      $log = date('m-d H:i').' '.json_encode($errors)."\n";
-      \craft\helpers\FileHelper::writeToFile($file, $log, ['append' => true]);
-    });
 
     // Listen for Submissions to/by Contact-Form Plugin
     Event::on(Submission::class, Submission::EVENT_AFTER_VALIDATE, function(Event $e) {
 
       $submission = $e->sender; // what contactForm.vue submits
+
+      // try getting errors
+      $errors = $submission->getErrors();
+      $file = Craft::getAlias('@storage/logs/effing-contact-form.log');
+      $log = date('m-d H:i').' '.json_encode($errors)."\n";
+      \craft\helpers\FileHelper::writeToFile($file, $log, ['append' => true]);
+
       $fromEmail = $submission->fromEmail; // sender/buyer (contacts seller)
       $fromName = $submission->fromName; // 
       $recipientEmail = $submission->message["recipientEmail"]; // recipient aka. seller (to be contacted)
