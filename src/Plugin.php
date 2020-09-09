@@ -91,8 +91,17 @@ Marché Patrimoine
 
 $signature_de
 EOD;
+
         // set up german subject for message to recipient (seller)
         $recipientSubject = 'Anfrage zu ihrem Objekt';
+        // set up german body of message to recipient (seller)
+        $recipient_body = <<<EOD
+$subject
+
+$body
+
+$signature_de
+EOD;
 
       } else { // $locale != 'de'
 
@@ -111,14 +120,16 @@ EOD;
 
         // set up french subject for message to recipient (seller)
         $recipient_subject = 'Demande d’offre';
-      }
-      
-// compose body of message to recipient (seller)
-$recipient_body = <<<EOD
-$recipient_subject
+        // set up french body of message to recipient (seller)
+        $recipient_body = <<<EOD
+$subject
 
 $body
+
+$signature_fr
 EOD;
+      }
+      
       // Log to storage/logs/contactform-extension.log
       // see Ben Croker’s answer – https://craftcms.stackexchange.com/questions/25427/craft-3-plugins-logging-in-a-separate-log-file
       /*
@@ -147,8 +158,8 @@ EOD;
       ->setTo($recipientEmail)
       ->setFrom([ $fromEmail => $fromName])
       ->setReplyTo([ $fromEmail => $fromName])
-      ->setSubject($subject)
-      ->setTextBody($body)
+      ->setSubject($recipient_subject)
+      ->setTextBody($recipient_body)
       ->send();
     });
 
@@ -215,10 +226,28 @@ EOD;
       $locale = Craft::$app->getSites()->getCurrentSite()->language; // needed to decide what language the sender reads
       if ($locale == 'de') {
         $success_subject = 'Objekt erfolgreich erfasst';
-        $success_body = "Das Objekt «".$entry->title."» wurde erfolgreich erfasst.\n\nEs wird nach redaktioneller Prüfung live geschaltet.\n\nFreundliche Grüsse,\nMarché Patrimoine";
+        $success_body = <<<EOD
+Das Objekt «$entry->title» wurde erfolgreich erfasst.
+  
+Es wird nach redaktioneller Prüfung live geschaltet.
+
+Freundliche Grüsse,
+Marché Patrimoine"
+
+$signature_de
+EOD;
       } else {
-        $success_subject = 'Objet enregistré';
-        $success_body = "Le bien « ".$entry->title." » a été enregistré\n\nIl sera mis en ligne après notre contrôle rédactionnel.\n\nAvec nos meilleures salutations.,\nMarché Patrimoine";
+        $success_subject = 'Objet enregistré avec succès';
+        $success_body = <<<EOD
+Le bien « $entry->title » a été enregistré
+
+Il sera mis en ligne après notre contrôle rédactionnel.
+
+Avec nos meilleures salutations.,
+Marché Patrimoine"
+
+$signatire_fr
+EOD;
       }
 
       /*J
