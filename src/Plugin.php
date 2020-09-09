@@ -102,7 +102,7 @@ Marché Patrimoine
 EOD;
 
         // set up german subject for message to recipient (seller)
-        $recipientSubject = 'Anfrage zu ihrem Objekt';
+        $recipient_subject = 'Anfrage zu ihrem Objekt';
         // set up german body of message to recipient (seller)
         $recipient_body = <<<EOD
 {$subject}
