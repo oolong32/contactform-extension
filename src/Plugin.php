@@ -17,14 +17,9 @@ use yii\base\Event;
 use craft\guestentries\controllers\SaveController;
 use craft\guestentries\events\SaveEvent;
 
-// Signatures for Mail Messages
-$signature_de = <<<EOD
---
-Diese Mail wurde von marchepatrimoine.ch generiert.
 
-Marché Patrimoine
-Die Plattform für Baudenkmäler
-
+// Address string needed in signature
+$mpContact = <<<EOD
 c/o Stiftung Ferien im Baudenkmal
 Zollikerstrasse 128, 8008 Zürich
 T 044 252 28 72 , info@marchepatrimoine.ch
@@ -32,6 +27,18 @@ T 044 252 28 72 , info@marchepatrimoine.ch
 marchepatrimoine.ch
 EOD;
 
+// German Signature
+$signature_de = <<<EOD
+--
+Diese Mail wurde von marchepatrimoine.ch generiert.
+
+Marché Patrimoine
+Die Plattform für Baudenkmäler
+
+$mpContact
+EOD;
+
+// French Signature
 $signature_fr = <<<EOD
 --
 Ce message a été généré par marchepatrimoine.ch
@@ -39,11 +46,7 @@ Ce message a été généré par marchepatrimoine.ch
 Marché Patrimoine
 La plateforme des bâtiments historiques
 
-c/o Stiftung Ferien im Baudenkmal
-Zollikerstrasse 128, 8008 Zürich
-T 044 252 28 72 , info@marchepatrimoine.ch
-
-marchepatrimoine.ch
+$mpContact
 EOD;
 
 
