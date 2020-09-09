@@ -93,7 +93,7 @@ class Plugin extends \craft\base\Plugin
         $success_body = <<<EOD
 Ihre Nachricht mit dem Betreff: «\$subject» wurde erfolgreich übermittelt.
 
-Der/die Verkäufer/in des Objektes «$estateName» wird sich mit Ihnen in Verbindung setzen.
+Der/die Verkäufer/in des Objektes «{$estateName}» wird sich mit Ihnen in Verbindung setzen.
 
 Freundliche Grüsse,
 Marché Patrimoine
@@ -119,7 +119,7 @@ EOD;
         $success_body = <<<EOD
 Votre message concernant : « \$subject » a été transmis.
 
-Le vendeur de l’objet « $estateName » vous contactera.
+Le vendeur de l’objet « {$estateName} » vous contactera.
 
 Avec nos meilleures salutations,
 Marché Patrimoine
