@@ -238,7 +238,6 @@ EOD;
 
       // German Signature
       $signature_de = <<<EOD
-
 --
 
 Diese Nachricht wurde automatisch generiert von:
@@ -251,7 +250,6 @@ EOD;
 
       // French Signature
       $signature_fr = <<<EOD
-
 --
 
 Ce message a été généré automatiquement par:
