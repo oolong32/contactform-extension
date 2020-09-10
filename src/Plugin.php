@@ -112,7 +112,7 @@ EOD;
         // set up french message text for success message to sender (buyer)
         $success_subject = "Message transmis avec succès";
         $success_body = <<<EOD
-Votre message concernant : « \$subject » a été transmis.
+Votre message concernant : « {$subject} » a été transmis.
 
 Le vendeur de l’objet « {$estateName} » vous contactera.
 
