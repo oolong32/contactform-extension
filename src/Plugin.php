@@ -67,14 +67,6 @@ EOD;
 
       $submission = $e->sender; // what contactForm.vue submits
 
-      /*
-      // try getting errors
-      $errors = $submission->getErrors();
-      $file = Craft::getAlias('@storage/logs/effing-contact-form.log');
-      $log = date('m-d H:i').' '.json_encode($errors)."\n";
-      \craft\helpers\FileHelper::writeToFile($file, $log, ['append' => true]);
-       */
-
       $fromEmail = $submission->fromEmail; // sender/buyer (contacts seller)
       $fromName = $submission->fromName; // 
       $recipientEmail = $submission->message["recipientEmail"]; // recipient aka. seller (to be contacted)
@@ -281,7 +273,7 @@ Es wird nach redaktioneller Prüfung live geschaltet.
 Freundliche Grüsse,
 Marché Patrimoine
 
-{$signature_de}
+$signature_de
 EOD;
       } else {
         $success_subject = 'Objet enregistré avec succès';
@@ -293,7 +285,7 @@ Il sera mis en ligne après notre contrôle rédactionnel.
 Avec nos meilleures salutations,
 Marché Patrimoine
 
-{$signature_fr}
+$signature_fr
 EOD;
       }
 
