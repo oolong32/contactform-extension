@@ -169,42 +169,6 @@ EOD;
 
     Event::on(SaveController::class, SaveController::EVENT_AFTER_ERROR, function(SaveEvent $e) {
 
-    // Address string needed in signature
-    $mpContact = <<<EOD
-c/o Schweizer Heimatschutz
-Zollikerstrasse 128
-8008 Zürich
-info@marchepatrimoine.ch
-T 044 252 28 72
-marchepatrimoine.ch
-EOD;
-
-    // German Signature
-    $signature_de = <<<EOD
-
---
-
-Diese Nachricht wurde automatisch generiert von:
-
-Marché Patrimoine
-Die Plattform für Baudenkmäler
-
-{$mpContact}
-EOD;
-
-    // French Signature
-    $signature_fr = <<<EOD
-
---
-
-Ce message a été généré automatiquement par:
-
-Marché Patrimoine
-La plateforme des bâtiments historiques
-
-{$mpContact}
-EOD;
-
       // Grab the entry
       $entry = $e->entry;
 
@@ -261,6 +225,42 @@ EOD;
         $sellerMail = $ownerMail; // needed for success message
       }
 
+      // Address string needed in signature
+      $mpContact = <<<EOD
+c/o Schweizer Heimatschutz
+Zollikerstrasse 128
+8008 Zürich
+info@marchepatrimoine.ch
+T 044 252 28 72
+marchepatrimoine.ch
+EOD;
+
+      // German Signature
+      $signature_de = <<<EOD
+
+--
+
+Diese Nachricht wurde automatisch generiert von:
+
+Marché Patrimoine
+Die Plattform für Baudenkmäler
+
+{$mpContact}
+EOD;
+
+      // French Signature
+      $signature_fr = <<<EOD
+
+--
+
+Ce message a été généré automatiquement par:
+
+Marché Patrimoine
+La plateforme des bâtiments historiques
+
+{$mpContact}
+EOD;
+
       // set up message text for success message to sender (buyer)
       $locale = Craft::$app->getSites()->getCurrentSite()->language; // needed to decide what language the sender reads
       if ($locale == 'de') {
@@ -273,9 +273,11 @@ Es wird nach redaktioneller Prüfung live geschaltet.
 Freundliche Grüsse,
 Marché Patrimoine
 
-$signature_de
+{$signature_de}
 EOD;
+
       } else {
+
         $success_subject = 'Objet enregistré avec succès';
         $success_body = <<<EOD
 Le bien « {$entry->title} » a été enregistré avec succès.
@@ -285,7 +287,7 @@ Il sera mis en ligne après notre contrôle rédactionnel.
 Avec nos meilleures salutations,
 Marché Patrimoine
 
-$signature_fr
+{$signature_fr}
 EOD;
       }
 
