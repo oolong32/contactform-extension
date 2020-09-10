@@ -29,23 +29,22 @@ class Plugin extends \craft\base\Plugin
     // Listen for Submissions to/by Contact-Form Plugin
     Event::on(Submission::class, Submission::EVENT_AFTER_VALIDATE, function(Event $e) {
 
-// Address string needed in signature
-$mpContact = <<<EOD
-c/o Stiftung Ferien im Baudenkmal
+    // Address string needed in signature
+    $mpContact = <<<EOD
+c/o Schweizer Heimatschutz
 Zollikerstrasse 128
 8008 Zürich
 info@marchepatrimoine.ch
 T 044 252 28 72
-
 marchepatrimoine.ch
 EOD;
 
-// German Signature
-$signature_de = <<<EOD
+    // German Signature
+    $signature_de = <<<EOD
 
 --
 
-Diese Mail wurde von marchepatrimoine.ch generiert.
+Diese Mail wurde automatisch generiert von:
 
 Marché Patrimoine
 Die Plattform für Baudenkmäler
@@ -53,12 +52,12 @@ Die Plattform für Baudenkmäler
 {$mpContact}
 EOD;
 
-// French Signature
-$signature_fr = <<<EOD
+    // French Signature
+    $signature_fr = <<<EOD
 
 --
 
-Ce message a été généré par marchepatrimoine.ch
+Ce message a été généré automatiquement par:
 
 Marché Patrimoine
 La plateforme des bâtiments historiques
@@ -172,23 +171,22 @@ EOD;
 
     Event::on(SaveController::class, SaveController::EVENT_AFTER_ERROR, function(SaveEvent $e) {
 
-// Address string needed in signature
-$mpContact = <<<EOD
-c/o Stiftung Ferien im Baudenkmal
+    // Address string needed in signature
+    $mpContact = <<<EOD
+c/o Schweizer Heimatschutz
 Zollikerstrasse 128
 8008 Zürich
 info@marchepatrimoine.ch
 T 044 252 28 72
-
 marchepatrimoine.ch
 EOD;
 
-// German Signature
-$signature_de = <<<EOD
+    // German Signature
+    $signature_de = <<<EOD
 
 --
 
-Diese Mail wurde von marchepatrimoine.ch generiert.
+Diese Nachricht wurde automatisch generiert von:
 
 Marché Patrimoine
 Die Plattform für Baudenkmäler
@@ -196,19 +194,18 @@ Die Plattform für Baudenkmäler
 {$mpContact}
 EOD;
 
-// French Signature
-$signature_fr = <<<EOD
+    // French Signature
+    $signature_fr = <<<EOD
 
 --
 
-Ce message a été généré par marchepatrimoine.ch
+Ce message a été généré automatiquement par:
 
 Marché Patrimoine
 La plateforme des bâtiments historiques
 
 {$mpContact}
 EOD;
-
 
       // Grab the entry
       $entry = $e->entry;
@@ -287,7 +284,7 @@ Le bien « $entry->title » a été enregistré
 
 Il sera mis en ligne après notre contrôle rédactionnel.
 
-Avec nos meilleures salutations.,
+Avec nos meilleures salutations,
 Marché Patrimoine"
 
 {$signature_fr}
