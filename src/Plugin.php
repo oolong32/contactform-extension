@@ -104,6 +104,10 @@ EOD;
         $recipient_subject = 'Anfrage zu ihrem Objekt';
         // set up german body of message to recipient (seller)
         $recipient_body = <<<EOD
+Guten Tag,
+ 
+Sie haben eine Anfrage für Ihr Objekt auf marchepatrimoine.ch erhalten:
+
 {$subject}
 
 $body
@@ -114,7 +118,7 @@ EOD;
       } else { // $locale != 'de'
 
         // set up french message text for success message to sender (buyer)
-        $success_subject = "Message transmis avec success";
+        $success_subject = "Message transmis avec succès";
         $success_body = <<<EOD
 Votre message concernant : « \$subject » a été transmis.
 
@@ -130,6 +134,8 @@ EOD;
         $recipient_subject = 'Demande d’offre';
         // set up french body of message to recipient (seller)
         $recipient_body = <<<EOD
+Bonjour,
+vous avez reçu une demande d’offre pour votre objet sur marchepatrimoine.ch :
 {$subject}
 
 $body
@@ -268,24 +274,24 @@ EOD;
       if ($locale == 'de') {
         $success_subject = 'Objekt erfolgreich erfasst';
         $success_body = <<<EOD
-Das Objekt «$entry->title» wurde erfolgreich erfasst.
+Das Objekt «{$entry->title}» wurde erfolgreich erfasst.
   
 Es wird nach redaktioneller Prüfung live geschaltet.
 
 Freundliche Grüsse,
-Marché Patrimoine"
+Marché Patrimoine
 
 {$signature_de}
 EOD;
       } else {
         $success_subject = 'Objet enregistré avec succès';
         $success_body = <<<EOD
-Le bien « $entry->title » a été enregistré
+Le bien « {$entry->title} » a été enregistré avec succès.
 
 Il sera mis en ligne après notre contrôle rédactionnel.
 
 Avec nos meilleures salutations,
-Marché Patrimoine"
+Marché Patrimoine
 
 {$signature_fr}
 EOD;
