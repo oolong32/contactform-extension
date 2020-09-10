@@ -128,6 +128,7 @@ EOD;
         $recipient_body = <<<EOD
 Bonjour,
 vous avez reçu une demande d’offre pour votre objet sur marchepatrimoine.ch :
+
 {$subject}
 
 $body
