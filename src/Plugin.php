@@ -72,8 +72,8 @@ EOD;
       $recipientEmail = $submission->message["recipientEmail"]; // recipient aka. seller (to be contacted)
       $subject = $submission->subject; // message subject
       $body = $submission->message["body"];// message
-      $locale = $submission->message["locale"]; // test custom value
-      $estateName = $submission->message["estateName"]; // test custom value
+      $locale = $submission->message["sprache"]; // test custom value
+      $estateName = $submission->message["objekt"]; // test custom value
       $success_subject = null; // success message to sender/buyer
       $success_body = null;// success message to sender/buyer
 
